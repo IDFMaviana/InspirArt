@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis/css2?family=Outfit:wght@300&display=swap");
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family:'Outfit', sans-serif;
+}
+body{
+    height:100vh;
+}
+.main-menu{
+    width:100vw;
+    height:100vh;
+    background: #201b2c;
+}
+.sua-paleta{
+    width:100vw;
+    height:100vh;
+    background: #201b2c;
+}
+/*Menu lateral*/
+nav.menu-lateral{
+    width:60px;
+    height:100%;
+    background-color: #202020;
+    padding: 50px 0 40px 1%;
+    box-shadow: 5px 0 0 rgb(129, 223, 207);
+    position:fixed;
+    top:0;
+    left:0;
+    overflow:hidden;
+    transition: .5s;
+}
+nav.menu-lateral.expandir{
+    width: 300px;
+}
+/*botão para expandir o menu*/
+.btn-expandir{
+    width: 100%;
+    padding-left: 1px;
+    margin-bottom: 20px;
+    line-height: 40px;
+}
+/*Estilização especifica do botão de expandir para evitar conflito*/
+.btn-expandir > i{
+    color:#fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+ul{
+    height: 100%;
+    list-style-type: None;
+}
+ul li.item-menu a{
+    color:#fff;
+    text-decoration:none;
+    font-size:20px;
+    padding: 5px 4%;
+    display: flex;
+    margin-bottom: 50px;
+    line-height: 40px;
+}
+ul li.item-menu a .txt-link{
+    margin-left: 25px;
+
+}
+nav.menu-lateral.expandir .txt-link{
+    margin-left: 40px;
+}
+/*Altera a cor dos icones*/
+ul li.item-menu a .icon > i{
+    font-size: 20px;
+}
+/*Adiciona uma cor de fundo ao passar o mouse pelos itens*/
+ul li.item-menu:hover{
+    background: rgb(129, 223, 207);
+}
+ul li.item-menu{
+    transition: .4s;
+}
+
+ul li.ativo{
+    background-color:rgb(129, 223, 207);
+}
+
