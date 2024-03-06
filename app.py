@@ -49,7 +49,6 @@ def gera_paleta(imagem):
     modelo = KMeans(n_clusters=5)
     novos_clusters = modelo.fit_predict(imagem)
     # Exibe a contagem de pixels em cada cluster
-    print(pd.Series(novos_clusters).value_counts())
 
     # Visualiza a paleta de cores para a nova imagem
     new_palette_2 = modelo.cluster_centers_.astype(int)
