@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 var mensagemSucesso = document.getElementById('mensagemSucesso');
                 mensagemSucesso.textContent = resposta.mensagem;
                 mensagemSucesso.style.display = 'block';
+                // Exibir o botão apenas se a resposta for bem-sucedida
+                document.getElementById('btnVerPaleta').style.display = 'block';
             } else {
                 console.error('Erro no upload:', this.response);
             }
@@ -19,3 +21,4 @@ document.addEventListener("DOMContentLoaded", function() {
         xhr.send(formData);
     };
 });
+

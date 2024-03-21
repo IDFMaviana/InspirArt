@@ -13,6 +13,8 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 import datetime
+import shutil
+
 
 os.environ['LOKY_MAX_CPU_COUNT'] = '4'
 
@@ -32,84 +34,6 @@ def suapaleta():
     return render_template('suapaleta.html')
 
 @app.route('/upload', methods=['POST'])
-#def upload():
-#    imagem = request.files['imagem']
-#    if 'imagem' not in request.files:
-#        return jsonify({'mensagem': 'Nenhuma imagem foi localizada'}), 400
-#
-#    if imagem.filename == '':
-#        return jsonify({'mensagem': 'Nenhuma imagem selecionada para upload'}), 400
-#
-#    # Chama a função extrai_recurso
-#    features = extrai_recurso(imagem)
-#
-#    if features is not None:
-#        # Chama a função gera_paleta
-#        gera_paleta(features)
-#
-#        # Converte a imagem para base64 para exibi-la na página HTML
-#        img_str = img_to_base64(imagem)
-#        return jsonify({'mensagem': 'Imagem processada com sucesso'}), 200
-#    else:
-#        return jsonify({'mensagem': 'Erro ao processar a imagem'}), 400
-#
-#def extrai_recurso(imagem):
-#    image = mpl.imread(imagem)
-#    if image is None:
-#        print(f"Erro ao carregar a imagem: {imagem}")
-#        return None
-#    # Transforma a imagem em uma matriz 1D
-#    image = image.reshape(-1, 3)
-#    return image
-#
-##def gera_paleta(imagem):
-##    modelo =  KMeans(n_clusters=5, init='k-means++', algorithm='elkan', n_init=1, random_state=42)
-##    novos_clusters = modelo.fit_predict(imagem)
-##    # Exibe a contagem de pixels em cada cluster
-##
-##    # Visualiza a paleta de cores para a nova imagem
-##    new_palette_2 = modelo.cluster_centers_.astype(int)
-##    new_palette_hex = ['#%02x%02x%02x' % (r, g, b) for (r, g, b) in new_palette_2]
-##
-##    plt.imshow([new_palette_2])
-##    #plt.axis('off')
-##    plt.savefig('static/upload/paleta.png')  # Salva a paleta como uma imagem
-##    plt.clf()
-#def gera_paleta(imagem):
-#    # Redimensiona a imagem para uma lista de pixels
-#    imagem_reshaped = imagem.reshape(-1, 3)
-#
-#    # Cria o modelo KMeans
-#    modelo = KMeans(n_clusters=5, init='k-means++', algorithm='elkan', n_init=1, random_state=42)
-#    novos_clusters = modelo.fit_predict(imagem_reshaped)
-#
-#    # Recupera os centros dos clusters
-#    new_palette_2 = modelo.cluster_centers_.astype(int)
-#
-#    # Aplica as cores dos centros dos clusters de volta aos pixels correspondentes
-#    imagem_clusterizada = new_palette_2[novos_clusters].reshape(imagem.shape)
-#
-#    # Salva a imagem original com os clusters aplicados
-#    plt.imshow(imagem_clusterizada)
-#    plt.axis('off')  # Remove os eixos
-#    plt.savefig('static/upload/imagem_clusterizada.png', bbox_inches='tight', pad_inches=0)
-#    plt.clf()
-#
-#    # Visualiza e salva a paleta de cores
-#    plt.imshow([new_palette_2])
-#    plt.axis('off')  # Remove os eixos
-#    plt.savefig('static/upload/paleta.png', bbox_inches='tight', pad_inches=0)
-#    plt.clf()
-#
-#def img_to_base64(imagem):
-#    image = mpl.imread(imagem)
-#    img_str = BytesIO()
-#    plt.imsave(img_str, image)
-#    img_str.seek(0)
-#    img_base64 = base64.b64encode(img_str.read()).decode('utf-8')
-#    return f"data:image/png;base64,{img_base64}"
-
-
 def upload():
     if 'imagem' not in request.files:
         return jsonify({'mensagem': 'Nenhuma imagem foi localizada'}), 400
@@ -124,9 +48,6 @@ def upload():
     if features is not None:
         # Chama a função gera_paleta
         gera_paleta(features)
-
-        # Converte a imagem para base64 para exibi-la na página HTML
-        #img_str = img_to_base64(imagem_clusterizada_path)
         return jsonify({'mensagem': 'Imagem processada com sucesso',# 'img_str': img_str
                         }), 200
     else:
@@ -143,10 +64,30 @@ def extrai_recurso(imagem):
     return image_array
 
 def gera_paleta(imagem_array):
+    # Grava a hora da operação
     hora = datetime.datetime.now()
     hora = hora.strftime("%d_%m_%Y_%I_%M")
+    
+    # Diretório para salvar os arquivos
+    diretorio = "static/upload/"
+    
+    #Verifica se o diretório existe
+    if not os.path.exists(diretorio):
+        os.makedirs(diretorio)
+
+    # Verifica se já existem três pastas criadas
+    contador_pastas = len(os.listdir(diretorio))
+
+    
+    # Cria uma nova pasta se o número de pastas criadas for menor ou igual a 3
+    if contador_pastas <= 3:
+        nova_pasta = diretorio + f'pasta_{contador_pastas}'
+        os.makedirs(nova_pasta)
+    else:
+        nova_pasta = diretorio + f'pasta_{contador_pastas - 1}'
+    
     # Redimensiona a imagem para uma lista de pixels
-    imagem_reshaped = imagem_array.reshape(-1,3)
+    imagem_reshaped = imagem_array.reshape(-1, 3)
 
     # Cria o modelo KMeans
     modelo = KMeans(n_clusters=8, init='k-means++', algorithm='elkan', n_init=1, random_state=42)
@@ -161,20 +102,32 @@ def gera_paleta(imagem_array):
     # Salva a imagem original com os clusters aplicados
     plt.imshow(imagem_clusterizada)
     plt.axis('off')  # Remove os eixos
-    plt.savefig(f'static/upload/imagem_clusterizada_{hora}.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(os.path.join(nova_pasta, f'imagem_clusterizada.png'), bbox_inches='tight', pad_inches=0)
     plt.clf()
 
     # Visualiza e salva a paleta de cores
     plt.imshow([new_palette_2])
     plt.axis('off')  # Remove os eixos
-    plt.savefig(f'static/upload/paleta_{hora}.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(os.path.join(nova_pasta, f'paleta.png'), bbox_inches='tight', pad_inches=0)
     plt.clf()
-
-    #return 'static/upload/paleta.png', 'static/upload/imagem_clusterizada.png'
 
 def img_to_base64(imagem_path):
     with open(imagem_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
-    
+
+def limpa_diretorio(diretorio):
+    shutil.rmtree(diretorio)
+    return 200
+
+#limpa a pasta com as palhetas
+@app.route('/exclui_pasta', methods=['POST'])
+def exclui_pastas():
+    # Diretório que você deseja limpar
+    diretorio = "static/upload"
+
+    # Chama a função para limpar o diretório
+    resultado = limpa_diretorio(diretorio)
+    return jsonify({'mensagem': 'Pasta limpa com sucesso'}),resultado
+
 if __name__ == '__main__':
     app.run(debug=True)
