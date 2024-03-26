@@ -33,6 +33,10 @@ def index():
 def suapaleta():
     return render_template('suapaleta.html')
 
+@app.route('/galeria')
+def galeria():
+    return render_template('galeria.html')
+
 @app.route('/upload', methods=['POST'])
 def upload():
     if 'imagem' not in request.files:
@@ -105,7 +109,7 @@ def gera_paleta(imagem_array):
     plt.savefig(os.path.join(nova_pasta, f'imagem_clusterizada.png'), bbox_inches='tight', pad_inches=0)
     plt.clf()
 
-    # Visualiza e salva a paleta de cores
+    # Salva a paleta de cores
     plt.imshow([new_palette_2])
     plt.axis('off')  # Remove os eixos
     plt.savefig(os.path.join(nova_pasta, f'paleta.png'), bbox_inches='tight', pad_inches=0)
@@ -122,7 +126,7 @@ def limpa_diretorio(diretorio):
 #limpa a pasta com as palhetas
 @app.route('/exclui_pasta', methods=['POST'])
 def exclui_pastas():
-    # Diretório que você deseja limpar
+    # Diretório
     diretorio = "static/upload"
 
     # Chama a função para limpar o diretório

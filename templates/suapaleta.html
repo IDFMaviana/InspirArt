@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div class="nav-logo">
+        <a href="/">
+            <img src="{{ url_for('static', filename='images/Logo Preto.png') }}">
+        </a>
+        <span class="blur"></span>
+    </div>
     <header class="container">
         <div class ="contaner py-5">
         <div class="row">
@@ -111,7 +117,7 @@
     </div>
     <div class="container-exclude">
         <form id="excl" action="/exclui_pasta" method="post">
-        <button id="btn-excl" type="submit" class="btn">
+        <button id="btn-excl" type="submit" class="btn btn-primary">
             <div class="btn-exclui">
                 <i class="bi bi-trash-fill"> Limpar paleta</i>
             </div>
@@ -119,10 +125,10 @@
         </form>
         <div class="modal-upload">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Faça o upload da sua imagem
+                Faça o upload de sua imagem
               </button>
               <!-- Modal -->
-              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                         <div class="modal-header">
@@ -143,7 +149,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </div>  
                         <div class="modal-footer">
                           <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>-->
                           <button id="btnVerPaleta" type="button" class="btn btn-primary" style="display: none;" onclick="location.href='/suapaleta'">Ver minha paleta</button>
@@ -152,14 +158,14 @@
                 </div>
               </div>
     </div>
-
     </header>
-    
     <!--Menu-lateral --> 
     <nav class="menu-lateral">
         <div class = "btn-expandir">
             <i class="bi bi-list" id="btn-exp"></i>
-            <img src="{{ url_for('static', filename='images/Logo Branco.png') }}">
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/Logo Preto.png') }}">
+            </a>
         </div>
      <ul>
         <li class="item-menu">
@@ -167,13 +173,13 @@
                 <span class = "icon">
                     <i class="bi bi-house"></i>
                 </span>
-                <span class="txt-link">Home</span>
+                <span class="txt-link">Pagina inicial</span>
             </a>
         </li>
         <li class="item-menu">
-            <a href="#">
+            <a href="{{ url_for('galeria') }}">
                 <span class = "icon"></i><i class="bi bi-card-image"></i></span>
-                <span class="txt-link">Galeria</span>
+                <span class="txt-link">Nossa galeria</span>
             </a>
         </li>
         <li class="item-menu">
