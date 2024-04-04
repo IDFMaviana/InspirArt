@@ -5,6 +5,9 @@ Quem nunca ficou na dúvida de quais cores escolher? "Será que a Cor X combina 
 # Objetivo
 O Inspirart tem como missão mostrar a beleza do padrão de cores de obras artísticas através de suas paletas. Utilizando algoritmos de Aprendizado de Máquina, o Inspirart oferece uma solução intuitiva e eficiente para ajudar na seleção de cores, seja para design gráfico, web design, moda ou simplesmnte qual cor usar para pintar aquela parede que precisa de uma reforma. Para isto foi desenvolvida uma aplicação reesponsiva na qual qualquer um possa subir sua imagem e ver a respectiva paleta da imagem escolhida: 
 
+![Vídeo-sem-título-‐-Feito-com-o-Clipchamp](https://github.com/IDFMaviana/InspirArt/assets/89605331/2dd9a280-c1ff-47fc-91b0-a630783dd0ef)
+
+
 ![image](https://github.com/IDFMaviana/InspirArt/assets/89605331/f402bc49-1a62-4153-84b2-16fb1016caaa)
 
 Pode utilizar suas imagens para descobrir suas respectivas paletas:
